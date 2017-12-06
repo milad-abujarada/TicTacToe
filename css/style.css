@@ -1,0 +1,9 @@
+div.container {
+	padding: 0px 25px;
+}
+div.cell {
+	width: 30%;
+	height: 150px;
+	border: solid 2px;
+	display: inline-block;
+}
