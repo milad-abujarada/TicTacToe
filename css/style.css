@@ -1,9 +1,27 @@
-div.container {
-	padding: 0px 25px;
+body {
+	background-color: grey;
 }
-div.cell {
-	width: 30%;
+.greeting {
+	margin: 0 auto; 
+	width: 36%; 
+	padding-top: 3%;
+	padding-bottom: 3%;
+	color: white;
+}
+
+.container {
+	margin-left: 11%;
+    padding: 0px 27% 0px 20%;
+	display: table;
+}
+
+.row{
+	display: table-row;
+}
+
+.cell {
+	width: 150px;
 	height: 150px;
-	border: solid 2px;
-	display: inline-block;
+	border: solid 1px;
+	display: table-cell;
 }
