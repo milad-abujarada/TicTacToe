@@ -18,14 +18,15 @@ $(document).ready(function(){
 					$activePlayer = changeTurn($activePlayer);
 
 				} else {
-					alert("There is no winner this round");
+					noWinner();
 				  }
 			} else {
-					alert("This cell is used please choose anothor cell");
+				alert("This cell is used please choose anothor cell");
 			  }
 
 		} else {
-			alert("There is no winner this round");
+			noWinner();
+			
 		  }
 	});
 });
@@ -35,8 +36,13 @@ function changeTurn(activePlayer){
 		if (activePlayer === "X") { 
 		return "O";
 	} else {
-		return "X";
+	    return "X";
 	  }
+}
+
+//no winner
+function noWinner(){
+	alert("There is no winner this round");
 }
 /*function checkForWinner(player){
 	if (player.firstRow === 36) {
