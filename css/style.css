@@ -3,14 +3,14 @@ body {
 }
 .greeting {
 	margin: 0 auto; 
-	width: 36%; 
+	width: 34%; 
 	padding-top: 3%;
 	padding-bottom: 3%;
-	color: white;
+	color: #879c97;
 }
 
 .container {
-	margin-left: 11%;
+	margin-left: 13%;
     padding: 0px 27% 0px 20%;
 	display: table;
 }
@@ -24,4 +24,6 @@ body {
 	height: 150px;
 	border: solid 1px;
 	display: table-cell;
+	font-size: 100px;
+	text-align: center;
 }
