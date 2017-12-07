@@ -1,18 +1,23 @@
 $(document).ready(function(){
 	console.log("The DOM is ready");
-	let $activePlayer = "X", winner = false, totalPlays = 0;
+	let $activePlayer = "X", $winner = false, totalPlays = 0, $board = [[],[],[]];
 	$("div.cell").click( function(){ 
-		// checking if therei is a winner or all the cells were used to stop playing ans show an alert
-	 	if ((winner === false) && (totalPlays < 9)) { 
-	 		console.log(totalPlays);
-	 		let $row = parseInt($(this).attr("class").substring(0,1),10); // geting the clicked cell row
-	 		let $column = parseInt($(this).attr("class").substring(1,2),10);//getting the clicked cell column
-	 		let $text = $.trim($(this).text());//removing any spaces from the value returned from the clicked cell
-	 		console.log($text);
+		// checking if there is a winner or all the cells were used to stop playing and show an alert
+	 	if (($winner === false) && (totalPlays < 9)) { 
+	 		let $row = parseInt($(this).attr("class").substring(0,1),10); //geting the clicked cell row
+	 		let $column = parseInt($(this).attr("class").substring(1,2),10); //getting the clicked cell column
+	 		let $text = $.trim($(this).text()); //removing any spaces from the value returned from the clicked cell
 			if (!($text === "X" || $text === "O")){
-				$(this).append($activePlayer);
+				$(this).append($activePlayer); //redrawing the board
+				$board[$row][$column] = $activePlayer; //recreating the game as an array
 				totalPlays +=1;
-				// check for a win
+				console.log(totalPlays);
+				// check for a win only if at least 5 plays were made
+				if (totalPlays >= 5) {
+					/*if (whichCellClicked($row, $column) === "corner cell"){
+						cornerCell($board, $clickedRow, $clickedColumn, $activePlayer);
+					}*/
+				}
 				if (!(totalPlays === 9)){
 					//call change turns 
 					$activePlayer = changeTurn($activePlayer);
@@ -27,7 +32,7 @@ $(document).ready(function(){
 		} else {
 			noWinner();
 			
-		  }
+		  };
 	});
 });
 
@@ -38,12 +43,32 @@ function changeTurn(activePlayer){
 	} else {
 	    return "X";
 	  }
-}
+};
 
 //no winner
 function noWinner(){
 	alert("There is no winner this round");
-}
+};
+
+/*function whichCellClicked(clickedRow, clickedColumn){
+	if (((clickedRow === clickedColumn) && (clickedRow + clickedColumn !== 2)) || ((clickedRow + clickedColumn === 2) && (clickedRow !== clickedColumn))) {
+		retrun "corner cell";
+	} else if{}
+};*/
+
+//corner cell
+function cornerCell(board, clickedRow, clickedColumn, activePlayer){
+	if ((board[(clickedRow + 1)%3][clickedColumn] === activePlayer) && ((board[(clickedRow + 2)%3][clickedColumn] === activePlayer))){
+		return true;
+	}
+	else if ((board[clickedRow][(clickedColumn + 1)%3] === activePlayer) && ((board[clickedRow][(clickedColumn + 2)%3] === activePlayer))){
+		return true;
+	}
+	else if ((board[(clickedRow+ 1)%3][(clickedColumn + 1)%3] === activePlayer) && ((board[(clickedRow+ 1)%3][(clickedColumn + 2)%3] === activePlayer))){
+		return true;
+	}
+	
+};
 /*function checkForWinner(player){
 	if (player.firstRow === 36) {
 		return true;
