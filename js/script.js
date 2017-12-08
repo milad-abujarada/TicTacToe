@@ -106,6 +106,8 @@ function centerCell(board, clickedRow, clickedColumn, activePlayer) {
 	};
 };
 
+/*backwardDiagonalCell checks for a win 
+if the cell is on the main diagonal but not a the center cell*/
 function backwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
 	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
 		return true;
@@ -116,6 +118,8 @@ function backwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
 	};
 };
 
+/*forwardDiagonalCell checks for a win 
+if the cell is on the antidiagonal but not a the center cell*/
 function forwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
 	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
 		return true;
@@ -126,6 +130,9 @@ function forwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
 	};
 };
 
+//crossCell uses functions checkRow and checkColumn to check if the player has a win in the
+//column or the row of the clicked cell as long it's not the center cell, not on the main diagonal
+//and not on the antidiagonal
 function crossCell (board, clickedRow, clickedColumn, activePlayer) {
 	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
 		return true;
@@ -134,18 +141,21 @@ function crossCell (board, clickedRow, clickedColumn, activePlayer) {
 	};
 };
 
+//checkRow checks if the activePlayer has a win in the row of the clicked cell
 function checkRow(board, clickedRow, clickedColumn, activePlayer) {
 	if ((board[clickedRow][(clickedColumn + 1)%3] === activePlayer) && ((board[clickedRow][(clickedColumn + 2)%3] === activePlayer))){		
 		return true;
 	};
 };
 
+ //checkColumn checks if the activePlayer has a win in the column of the clicked cell
 function checkColumn(board, clickedRow, clickedColumn, activePlayer) {
 	if ((board[(clickedRow+ 1)%3][clickedColumn] === activePlayer) && ((board[(clickedRow+ 2)%3][clickedColumn] === activePlayer))){
 		return true;
 	};
 };
 
+//checkForwardDiagonal checks if the activePlayer has a win when row + column = 2
 function checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer) {
 	if(clickedRow > clickedColumn) {
 		if ((board[(clickedRow - 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedColumn][clickedRow] === activePlayer))){
@@ -160,6 +170,8 @@ function checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer) {
 				return true; 
 		};
 	};
+
+//checkBackwordDiagonal checks if there activePlayer has a win  when row = column
 };
 function checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer){
 	if ((clickedColumn + clickedRow) === 0){

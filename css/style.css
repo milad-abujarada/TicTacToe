@@ -1,5 +1,6 @@
 body {
-	background-color: grey;
+	background-color: #eaeaea;
+	font-family: 'Bungee', cursive;
 }
 .greeting {
 	margin: 0 auto; 
