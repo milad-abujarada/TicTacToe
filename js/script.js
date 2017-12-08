@@ -13,17 +13,17 @@ $(document).ready(function(){
 				totalPlays +=1;
 				console.log(totalPlays);
 				// check for a win only if at least 5 plays were made
-				if (totalPlays >= 5) {
-
-					if (whichCellClicked($row, $column) === "corner cell"){
+				if (totalPlays >= 5) { console.log(whichCellClicked($row, $column));
+					//calling whichCellClicked to find out the cell the activePlayer clicked on
+					/*if (whichCellClicked($row, $column) === "corner cell"){
 						console.log("corner cell");
-						if (cornerCell($board, $row, $column, $activePlayer)){
+/*						if (cornerCell($board, $row, $column, $activePlayer)){
 							$winner = true;
 							declarWinner($activePlayer);
 						}
 
 						
-					}
+					}*/
 				}
 				if (!(totalPlays === 9)){
 					//call change turns 
@@ -61,9 +61,16 @@ function declarWinner(activePlayer){
 	alert("Congrats!!! player " + activePlayer + " has won!!!")
 }
 
+//whichCellClicked to find which cell the activePlayer clicked on 
 function whichCellClicked(clickedRow, clickedColumn){
-	if (((clickedRow === clickedColumn) && (clickedRow + clickedColumn !== 2)) || ((clickedRow + clickedColumn === 2) && (clickedRow !== clickedColumn))) {
-		return "corner cell";
+	if ((clickedRow === clickedColumn) && ((clickedRow + clickedColumn) === 2)) {
+		return "center cell";
+	} else if (clickedRow === clickedColumn){
+		return "backward diagonal";
+	} else if ((clickedRow + clickedColumn) === 2){
+		return "forward diagonal";
+	} else {
+		return "cross cell"
 	};
 };
 
@@ -91,7 +98,7 @@ function checkColumn(board, clickedRow, clickedColumn, activePlayer) {
 	};
 };
 
-function checkForwardSlash(board, clickedRow, clickedColumn, activePlayer) {
+function checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer) {
 	if(clickedRow > clickedColumn) {
 		if ((board[(clickedRow - 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedColumn][clickedRow] === activePlayer))){
 			return true; 
@@ -102,7 +109,7 @@ function checkForwardSlash(board, clickedRow, clickedColumn, activePlayer) {
 		};
 	};
 };
-function checkBackwordSlash(board, clickedRow, clickedColumn, activePlayer){
+function checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer){
 	if ((clickedColumn + clickedRow) === 0){
 		if ((board[(clickedRow + 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedRow + 2][clickedColumn + 2] === activePlayer))){ 
 			return true; 
