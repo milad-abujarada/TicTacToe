@@ -13,7 +13,7 @@ $(document).ready(function(){
 				totalPlays +=1;
 				console.log(totalPlays);
 				// check for a win only if at least 5 plays were made
-				if (totalPlays >= 5) { console.log(whichCellClicked($row, $column)); console.log($board);
+				if (totalPlays >= 5) { //console.log(whichCellClicked($row, $column)); console.log($board);
 					/*calling whichCellClicked to find out the cell the activePlayer clicked on and based on that
 					function centerCell, crossCell, forwadDiagonalCell, or backwardDiagonalCell is called*/
 					let clickedCell = whichCellClicked($row, $column);
@@ -42,7 +42,7 @@ $(document).ready(function(){
 				if (totalPlays < 9 && !($winner)){
 					//call changeTurn to change the activePlayer 
 					$activePlayer = changeTurn($activePlayer);
-				} else {
+				} else if (!($winner)){
 					noWinner();
 				  }
 			} else {
@@ -175,28 +175,3 @@ function checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer){
 			return true; 
 		};}; 
 };
-/*function checkForWinner(player){
-	if (player.firstRow === 36) {
-		return true;
-	} else if ((player.secondRow === 66) ||(player.secondColumn === 66) || (player.leftDiagonal === 66) || (player.rightDiagonal === 66)) {
-		return true;
-	} else if (player.thirdRow === 96) {
-		return true;	
-	} else if (player.firstColumn === 63) {
-		return true;
-	} else if (player.thirdColumn === 69) {
-		return true;
-	}else {
-		return false;
-	};
-};
-
-var playerX = {
-	firstRow: 0, secondRow: 0, thirdRow: 0, firstColumn: 0, secondColumn: 0, thirdColumn: 0, leftDiagonal: 0, rightDiagonal: 0
-
-};
-
-var playerO = {
-	firstRow: 0, secondRow: 0, thirdRow: 0, firstColumn: 0, secondColumn: 0, thirdColumn: 0, leftDiagonal: 0, rightDiagonal: 0
-
-};*/
