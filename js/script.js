@@ -13,22 +13,35 @@ $(document).ready(function(){
 				totalPlays +=1;
 				console.log(totalPlays);
 				// check for a win only if at least 5 plays were made
-				if (totalPlays >= 5) { console.log(whichCellClicked($row, $column));
-					//calling whichCellClicked to find out the cell the activePlayer clicked on
-					/*if (whichCellClicked($row, $column) === "corner cell"){
-						console.log("corner cell");
-/*						if (cornerCell($board, $row, $column, $activePlayer)){
+				if (totalPlays >= 5) { console.log(whichCellClicked($row, $column)); console.log($board);
+					/*calling whichCellClicked to find out the cell the activePlayer clicked on and based on that
+					function centerCell, crossCell, forwadDiagonalCell, or backwardDiagonalCell is called*/
+					let clickedCell = whichCellClicked($row, $column);
+					if (clickedCell === "center cell") {
+						if (centerCell($board, $row, $column, $activePlayer)){
 							$winner = true;
 							declarWinner($activePlayer);
+						};
+					} else if (clickedCell === "backward diagonal") { 
+						if (backwardDiagonalCell($board, $row, $column, $activePlayer)){ 
+							$winner = true;
+							declarWinner($activePlayer); 
+						};
+					} else if (clickedCell === "forward diagonal") {
+						if (forwardDiagonalCell($board, $row, $column, $activePlayer)){ 
+							$winner = true; 
+							declarWinner($activePlayer); 
 						}
-
-						
-					}*/
-				}
-				if (!(totalPlays === 9)){
-					//call change turns 
+					} else if (clickedCell === "cross cell"){
+						if (crossCell($board, $row, $column, $activePlayer)){
+							$winner = true; 
+							declarWinner($activePlayer);
+						}
+					};
+				};
+				if (totalPlays < 9 && !($winner)){
+					//call changeTurn to change the activePlayer 
 					$activePlayer = changeTurn($activePlayer);
-
 				} else {
 					noWinner();
 				  }
@@ -36,14 +49,18 @@ $(document).ready(function(){
 				alert("This cell is used please choose anothor cell");
 			  }
 
-		} else {
-			noWinner();
+		} else { 
+			if ($winner === true) {
+				declarWinner($activePlayer);
+			} else {
+				noWinner()
+			};
 			
-		  };
+		};
 	});
 });
 
-//changing the active player
+//changeTurn changes the activePlayer
 function changeTurn(activePlayer){
 		if (activePlayer === "X") { 
 		return "O";
@@ -52,11 +69,12 @@ function changeTurn(activePlayer){
 	  };
 };
 
-//no winner
+//noWinner declares a tie game
 function noWinner(){
-	alert("There is no winner this round");
+	alert("It's a tie game!!! There is no winner this round");
 };
 
+//winner declaration
 function declarWinner(activePlayer){
 	alert("Congrats!!! player " + activePlayer + " has won!!!")
 }
@@ -74,17 +92,47 @@ function whichCellClicked(clickedRow, clickedColumn){
 	};
 };
 
-//corner cell
-/*function cornerCell(board, clickedRow, clickedColumn, activePlayer){
-	//add the i+j mod 3 = 2
-	if ((board[(clickedRow + 1)%3][clickedColumn] === activePlayer) && ((board[(clickedRow + 2)%3][clickedColumn] === activePlayer))){
-		
+/*centerCell function checks after the player clicks on the center cell for a win by calling 
+four functions that will check the row, column, forward diagonal and backward diagonal the cell falls on*/
+function centerCell(board, clickedRow, clickedColumn, activePlayer) {
+	if (checkRow(board, clickedRow, clickedColumn, activePlayer)){
 		return true;
-	}
-	else 
-	else 
-	
-};*/
+	} else if (checkColumn(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	}else if (checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	};
+};
+
+function backwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
+	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkColumn(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	};
+};
+
+function forwardDiagonalCell (board, clickedRow, clickedColumn, activePlayer) {
+	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkColumn(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	};
+};
+
+function crossCell (board, clickedRow, clickedColumn, activePlayer) {
+	if (checkRow(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	} else if (checkColumn(board, clickedRow, clickedColumn, activePlayer)) {
+		return true;
+	};
+};
 
 function checkRow(board, clickedRow, clickedColumn, activePlayer) {
 	if ((board[clickedRow][(clickedColumn + 1)%3] === activePlayer) && ((board[clickedRow][(clickedColumn + 2)%3] === activePlayer))){		
@@ -93,7 +141,7 @@ function checkRow(board, clickedRow, clickedColumn, activePlayer) {
 };
 
 function checkColumn(board, clickedRow, clickedColumn, activePlayer) {
-	if ((board[(clickedRow+ 1)%3][(clickedColumn + 1)%3] === activePlayer) && ((board[(clickedRow+ 1)%3][(clickedColumn + 1)%3] === activePlayer))){
+	if ((board[(clickedRow+ 1)%3][clickedColumn] === activePlayer) && ((board[(clickedRow+ 2)%3][clickedColumn] === activePlayer))){
 		return true;
 	};
 };
@@ -102,10 +150,14 @@ function checkForwardDiagonal(board, clickedRow, clickedColumn, activePlayer) {
 	if(clickedRow > clickedColumn) {
 		if ((board[(clickedRow - 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedColumn][clickedRow] === activePlayer))){
 			return true; 
-		} else { 
-			if ((board[(clickedRow + 1)][(clickedColumn - 1)] === activePlayer) && ((board[clickedColumn][clickedRow] === activePlayer))){
+		}; 
+	} else if (clickedRow < clickedColumn) { 
+		if ((board[(clickedRow + 1)][(clickedColumn - 1)] === activePlayer) && ((board[clickedColumn][clickedRow] === activePlayer))){
 				return true; 
-			};
+		};
+	} else if (clickedRow === clickedColumn) {
+		if ((board[(clickedRow + 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedRow - 1][clickedColumn - 1] === activePlayer))){
+				return true; 
 		};
 	};
 };
@@ -113,12 +165,15 @@ function checkBackwordDiagonal(board, clickedRow, clickedColumn, activePlayer){
 	if ((clickedColumn + clickedRow) === 0){
 		if ((board[(clickedRow + 1)][(clickedColumn + 1)] === activePlayer) && ((board[clickedRow + 2][clickedColumn + 2] === activePlayer))){ 
 			return true; 
-		} else { 
-			if ((board[(clickedRow - 1)][(clickedColumn - 1)] === activePlayer) && ((board[clickedRow - 2][clickedColumn - 2] === activePlayer))){ 
-				return true; 
-			}; 
 		}; 
-	};
+	} else if ((clickedColumn + clickedRow) === 4){
+		if ((board[(clickedRow - 1)][(clickedColumn - 1)] === activePlayer) && ((board[clickedRow - 2][clickedColumn - 2] === activePlayer))){ 
+			return true; 
+		};
+	} else if ((clickedRow + clickedColumn === 2)){
+		if ((board[(clickedRow - 1)][(clickedColumn - 1)] === activePlayer) && ((board[clickedRow + 1][clickedColumn + 1] === activePlayer))){ 
+			return true; 
+		};}; 
 };
 /*function checkForWinner(player){
 	if (player.firstRow === 36) {
